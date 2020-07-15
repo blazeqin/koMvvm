@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            buildConfigField "boolean","openLog","false"
+            buildConfigField "boolean","singleTag","false"
+            buildConfigField "String","baseUrl","https://www.wanandroid.com/"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            buildConfigField "boolean","openLog","true"
+            buildConfigField "boolean","singleTag","true"
+            buildConfigField "String","baseUrl","\"https://www.wanandroid.com/\""
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    lintOptions {
+        quiet true
+        abortOnError false
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.navigation:navigation-fragment:2.2.2'
+    implementation 'androidx.navigation:navigation-ui:2.2.2'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    testImplementation rootProject.ext.test.junit
+    androidTestImplementation rootProject.ext.test.runner
+    androidTestImplementation rootProject.ext.test["espresso-core"]
+    //第三方
+    implementation rootProject.ext.dependencies.banner
+    implementation rootProject.ext.dependencies.BRVAH
+    implementation rootProject.ext.dependencies.bdclta
+    implementation rootProject.ext.dependencies['bdclta-rv']
+    //MVVMLin
+    implementation project(path: ':mvvmlib')
+
+}

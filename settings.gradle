@@ -1,0 +1,3 @@
+include ':mvvmlib'
+include ':app'
+rootProject.name = "KoMvvm"

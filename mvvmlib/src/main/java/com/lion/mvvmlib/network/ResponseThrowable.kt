@@ -1,0 +1,40 @@
+package com.lion.mvvmlib.network
+/**
+ * 错误处理的item
+ */
+class ResponseThrowable (
+    val code:Int,
+    val msg:String
+): Exception() {
+    constructor(error: Error) : this(error.code,error.value)
+}
+
+enum class Error(
+    val code:Int,
+    val value:String
+){
+    /**
+     * 未知错误
+     */
+    UNKNOWN(1000, "未知错误"),
+    /**
+     * 解析错误
+     */
+    PARSE_ERROR(1001, "解析错误"),
+    /**
+     * 网络错误
+     */
+    NETWORK_ERROR(1002, "网络错误"),
+    /**
+     * 协议出错
+     */
+    HTTP_ERROR(1003, "协议出错"),
+    /**
+     * 证书出错
+     */
+    SSL_ERROR(1004, "证书出错"),
+    /**
+     * 连接超时
+     */
+    TIMEOUT_ERROR(1006, "连接超时")
+}
