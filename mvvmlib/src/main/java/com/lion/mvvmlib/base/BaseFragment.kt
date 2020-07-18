@@ -94,7 +94,7 @@ abstract class BaseFragment<VM : BaseVM, DB : ViewDataBinding> : Fragment() {
         })
     }
 
-    open fun handleEvent(event: EventItem?) {  }
+    open fun handleEvent(event: EventItem) {  }
     open fun initView(savedInstanceState: Bundle?) {}
 
     /**

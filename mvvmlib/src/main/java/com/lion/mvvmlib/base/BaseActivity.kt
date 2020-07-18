@@ -71,7 +71,7 @@ abstract class BaseActivity<VM : BaseVM, DB : ViewDataBinding> : AppCompatActivi
     }
 
     abstract fun layoutId():Int
-    abstract fun initView(savedInstanceState: Bundle?)
+    open fun initView(savedInstanceState: Bundle?){}
     abstract fun initData()
 
     open fun handleEvent(event: EventItem) {}

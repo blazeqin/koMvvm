@@ -10,3 +10,5 @@ enum class EventType{
     EVENT_TOAST,
     EVENT_MSG
 }
+
+const val EXTRA_URL = "link"

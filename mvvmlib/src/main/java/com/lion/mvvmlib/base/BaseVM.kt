@@ -31,7 +31,10 @@ open class BaseVM : AndroidViewModel(Utils.getApp()), LifecycleObserver {
      * 链式调用
      */
     fun <T> launchFlow(block: suspend () -> T): Flow<T> {
-        return flow { emit(block()) }
+        return flow {
+            val t = block()
+            emit(t)
+        }
     }
 
     /**

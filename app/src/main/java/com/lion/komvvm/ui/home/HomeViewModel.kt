@@ -16,13 +16,19 @@ class HomeViewModel : BaseVM() {
     //but I do some limits when refreshing ui.
     val mDatas = MutableLiveData<HomeListBean>()
     val mBannerData = MutableLiveData<List<BannerBean>>()
+    private var page = 0
 
-    fun getHomeList(page: Int) {
+    fun getHomeList(isMore: Boolean = false) {
+        if (isMore.not()) page = 0
+
         launchFilterResponse(
             //request the data
             {mRepository.getHomeListData(page)},
             //request successfully
-            {mDatas.value = it}
+            {
+                mDatas.value = it
+                page = it.curPage
+            }
         )
     }
 
