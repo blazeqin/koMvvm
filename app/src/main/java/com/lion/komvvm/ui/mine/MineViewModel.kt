@@ -3,12 +3,24 @@ package com.lion.komvvm.ui.mine
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lion.komvvm.entity.UserBean
+import com.lion.komvvm.utils.InjectorUtil
 import com.lion.mvvmlib.base.BaseVM
 
 class MineViewModel : BaseVM() {
+    private val mRepository = InjectorUtil.getMineRepository()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is mine Fragment"
+    val mDatas = MutableLiveData<MutableList<Any>>()
+
+    fun getMineData() {
+        launchFilterResponse(
+            {mRepository.getMineData()},
+            {
+                val datas = ArrayList<Any>()
+                datas.add("Mine Title")
+                datas.addAll(it)
+                mDatas.value = datas
+            }
+        )
     }
-    val text: LiveData<String> = _text
 }

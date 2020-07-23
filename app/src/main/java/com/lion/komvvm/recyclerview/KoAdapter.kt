@@ -4,15 +4,34 @@ import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * Adapter的封装
+ * 还没有完成的任务： 加载更多； 点击事件
+ */
 class KoAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //data source
-    val mDatas:MutableList<T> = mutableListOf()
+    var mDatas:MutableList<T> = mutableListOf()
     // kinds of holders
     private val mTypeHolders = SparseArrayCompat<ViewHolderCreator<T>>()
+    //item click listener
+    private var mItemClick: ((KoAdapter<T>,Int)->Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val holder = getHolderByViewType(viewType) ?: throwException(viewType)
-        return BaseViewHolder(parent, holder.getResourceId())
+        val viewHolder = BaseViewHolder(parent, holder.getResourceId())
+        bindClickListener(viewHolder)
+        return viewHolder
+    }
+
+    fun setItemClickListener(listener: (KoAdapter<T>,Int)->Unit) {
+        mItemClick = listener
+    }
+
+    private fun bindClickListener(viewHolder: BaseViewHolder) {
+        viewHolder.itemView.setOnClickListener {
+            //ignore the head view, the layoutPosition maybe wrong.
+            mItemClick?.invoke(this, viewHolder.layoutPosition)
+        }
     }
 
     private fun getHolderByViewType(viewType: Int): ViewHolderCreator<T>? {
@@ -37,7 +56,8 @@ class KoAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val creatorHolder =
             getHolderByViewType(holder.itemViewType) ?: throwException(holder.itemViewType)
         creatorHolder.registerItemView(holder.itemView)
-        creatorHolder.onBindViewHolder(mDatas[position], mDatas, position, creatorHolder)
+//        creatorHolder.onBindViewHolder(mDatas[position], mDatas, position, creatorHolder)
+        creatorHolder.mFuncForBindViewHolder?.invoke(mDatas[position], position, creatorHolder)
     }
 
     //get view type: iterator to get it
@@ -45,7 +65,7 @@ class KoAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val data = mDatas[position]
         for (i in 0 until mTypeHolders.size()) {
             val holder = mTypeHolders.valueAt(i)
-            if (holder.isGivenViewType(data, position)) {
+            if (holder.mFuncForViewType.invoke(data, position)) {
                 return mTypeHolders.keyAt(i)
             }
         }
@@ -66,6 +86,16 @@ class KoAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun addData(position: Int, data: T) {
         mDatas.add(position, data)
         notifyItemInserted(position)
+    }
+
+    fun addNewAll(items: MutableList<T>) {
+        mDatas = items
+        notifyDataSetChanged()
+    }
+
+    fun addAll(items: MutableList<T>) {
+        mDatas.addAll(items)
+        notifyDataSetChanged()
     }
 
     //remove data
@@ -94,7 +124,18 @@ class KoAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         mDatas.addAll(items)
         notifyDataSetChanged()
     }
+
     private fun throwException(value: Int):ViewHolderCreator<T> {
         throw NullPointerException("No holder available for this view type: $value")
     }
+
+}
+
+fun <T> koAdapter(init: KoAdapter<T>.()->Unit): KoAdapter<T> =
+    KoAdapter<T>().apply(init)
+
+fun <T> KoAdapter<T>.addItemView(resourceId: Int, init: ViewHolderCreator<T>.() -> Unit) {
+    val holder = ViewHolderCreator<T>(resourceId)
+    holder.init()
+    register(holder)//保存holder到缓存
 }

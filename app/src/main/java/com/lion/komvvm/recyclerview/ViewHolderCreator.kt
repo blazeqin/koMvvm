@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 /**
  * view holder 的封装
@@ -18,15 +19,25 @@ class BaseViewHolder(parent: ViewGroup, resource: Int):RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(resource,parent, false)
 )
 
-abstract class ViewHolderCreator<T> {
+class ViewHolderCreator<T>(private val resourceId: Int) {
+    var mFuncForViewType: ((data: T?, position:Int)->Boolean) = { _,_-> true }
+    var mFuncForBindViewHolder:((
+        data: T?, position: Int,holder:ViewHolderCreator<T>
+    )->Unit)? = null
+
     //get the resource layout
-    abstract fun getResourceId():Int
+    fun getResourceId():Int = resourceId
     //find the type of view
-    abstract fun isGivenViewType(data: T?, position:Int):Boolean
+    fun isGivenViewType(block:(data: T?, position:Int)->Boolean){
+        mFuncForViewType = block
+    }
+
     //bind view holder
-    abstract fun onBindViewHolder(
-        data: T?, items: MutableList<T>, position: Int,holder:ViewHolderCreator<T>
-    )
+    fun onBindViewHolder(block:(
+        data: T?, position: Int,holder:ViewHolderCreator<T>
+    )->Unit){
+        mFuncForBindViewHolder = block
+    }
 
     //findViewById encapsulation
     var mRootView: View? = null
@@ -67,6 +78,11 @@ fun <T> ViewHolderCreator<T>.setImageBitmap(viewId: Int, bm: Bitmap?) = apply {
 fun <T> ViewHolderCreator<T>.setImageDrawable(viewId: Int, drawable: Drawable?) = apply {
     val imageView: ImageView = findViewById(viewId)
     imageView.setImageDrawable(drawable)
+}
+
+fun <T> ViewHolderCreator<T>.setImageUrl(viewId: Int, url: String?) = apply {
+    val imageView: ImageView = findViewById(viewId)
+    Glide.with(imageView).load(url).into(imageView)
 }
 
 fun <T> ViewHolderCreator<T>.setBackground(viewId: Int, drawable: Drawable?) = apply {

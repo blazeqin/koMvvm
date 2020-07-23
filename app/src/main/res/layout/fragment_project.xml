@@ -31,8 +31,6 @@
             android:id="@+id/rv_project"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:items="@{viewModel.mDatas}"
-            app:itemBinding="@{viewModel.mItemBinding}"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

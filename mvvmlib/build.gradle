@@ -13,8 +13,10 @@ android {
         versionName rootProject.ext.android.versionName
     }
 
-    dataBinding{
-        enabled true
+    buildFeatures{
+        dataBinding = true
+// for view binding :
+// viewBinding = true
     }
     buildTypes {
         release {

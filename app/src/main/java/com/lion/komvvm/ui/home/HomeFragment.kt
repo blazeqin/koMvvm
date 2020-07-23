@@ -40,7 +40,7 @@ class HomeFragment : BaseFragment<HomeViewModel, ViewDataBinding>() {
             mBanner.minimumWidth = MATCH_PARENT
             mBanner.layoutParams =
                 ViewGroup.LayoutParams(MATCH_PARENT, resources.getDimension(R.dimen.dp_140).toInt())
-            mBanner.loadImage { banner, model, view, position ->
+            mBanner.loadImage { _, model, view, _ ->
                 Glide.with(view).load((model as BannerBean).xBannerUrl).into(view as ImageView)
             }
         }

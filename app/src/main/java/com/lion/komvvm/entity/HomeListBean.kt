@@ -17,7 +17,7 @@ package com.lion.komvvm.entity
  */
 data class HomeListBean(
     val curPage: Int,
-    val datas: List<ArticlesBean>,
+    val datas: MutableList<ArticlesBean>,
     val offset: Int,
     val over: Boolean,
     val pageCount: Int,
