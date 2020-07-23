@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.blankj.utilcode.util.LogUtils
 import com.lion.komvvm.R
 
 /**
@@ -27,6 +28,11 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
+
+        //just add listener, then the default will be changed.
+        navView.setOnNavigationItemReselectedListener {
+            LogUtils.i("click the same item...")
+        }
     }
 
     // solute the system button click back but crash
