@@ -23,6 +23,7 @@
             app:tabBackground="@color/blue"
             app:tabItemClick="@{viewModel.mTabClickListener}"
             app:tabMode="scrollable"
+            app:tabIndicatorColor="@color/colorAccent"
             app:tabTextColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_42"/>
