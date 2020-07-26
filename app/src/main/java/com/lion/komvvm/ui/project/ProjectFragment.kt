@@ -2,10 +2,9 @@ package com.lion.komvvm.ui.project
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
-import com.blankj.utilcode.util.LogUtils
 import com.lion.komvvm.R
-import com.lion.komvvm.databinding.FragmentProjectBinding
 import com.lion.komvvm.entity.ArticlesBean
 import com.lion.komvvm.recyclerview.*
 import com.lion.komvvm.ui.activity.WebviewActivity
@@ -18,16 +17,15 @@ import kotlinx.android.synthetic.main.fragment_project.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
-class ProjectFragment : BaseFragment<ProjectViewModel, FragmentProjectBinding>() {
+class ProjectFragment : BaseFragment<ProjectViewModel, ViewDataBinding>() {
 
     override fun layoutId() = R.layout.fragment_project
 
     override fun initView(savedInstanceState: Bundle?) {
-        mBinding?.viewModel = mViewModel
+        initTabLayout()
         rv_project.setup<ArticlesBean> {
             dataSource(mViewModel.mDatas.value)
             adapter {
-                LogUtils.i("init koadapter...")
                 addItemView(R.layout.item_project_list) {
                     onBindViewHolder { data, _, _ ->
                         setText(R.id.tv_project_list_article_type, data?.chapterName)
@@ -46,6 +44,13 @@ class ProjectFragment : BaseFragment<ProjectViewModel, FragmentProjectBinding>()
             }
             addItemDecoration(LineItemDecoration(requireContext()))
         }
+    }
+
+    private fun initTabLayout() {
+        mViewModel.mTabTitle.observe(this, Observer {
+            it.forEach { title-> tl_project.addTab(tl_project.newTab().setText(title)) }
+        })
+        tl_project.addOnTabSelectedListener(mViewModel.mTabClickListener)
     }
 
     @FlowPreview

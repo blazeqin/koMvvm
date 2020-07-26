@@ -1,6 +1,8 @@
 package com.lion.komvvm.network
 
+import com.lion.komvvm.entity.NavTypeBean
 import com.lion.komvvm.network.api.ProjectService
+import com.lion.mvvmlib.base.BaseResult
 
 /**
  * this layer is only to connect with network

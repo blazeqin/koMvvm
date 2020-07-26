@@ -32,9 +32,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     //androidx
-    api rootProject.ext.androidxs
+    implementation rootProject.ext.androidxs
     //network
     api rootProject.ext.network
     //material-dialogs

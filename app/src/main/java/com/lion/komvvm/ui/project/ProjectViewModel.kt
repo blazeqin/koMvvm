@@ -3,6 +3,7 @@ package com.lion.komvvm.ui.project
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.Utils
 import com.google.android.material.tabs.TabLayout
 import com.lion.komvvm.entity.ArticlesBean
 import com.lion.komvvm.entity.NavTypeBean
@@ -13,18 +14,15 @@ import kotlinx.coroutines.FlowPreview
 
 class ProjectViewModel : BaseVM() {
 
-    private val mRepository = InjectorUtil.getProjectRepository()
+    private val mRepository = InjectorUtil.getProjectRepository(Utils.getApp())
     private var page = 0
 
-    //tab 使用databinding
-    val mTabTitle = ObservableArrayList<String>()
+    //tab
+    val mTabTitle = MutableLiveData<MutableList<String>>()
     val mTabData = ObservableArrayList<NavTypeBean>()
 
     //data list
     val mDatas = MutableLiveData<MutableList<ArticlesBean>>()
-
-//    val mItemBinding = ItemBinding.of<ArticlesBean>(BR.itemBean, R.layout.item_project_list)
-//        .bindExtra(BR.listener, mItemClick)
 
     val mTabClickListener = object :TabLayout.OnTabSelectedListener{
         override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -71,7 +69,9 @@ class ProjectViewModel : BaseVM() {
             {mRepository.getTabData()},
             {
                 mTabData.addAll(it)
-                it.forEach { item-> mTabTitle.add(item.name) }
+                val list = mutableListOf<String>()
+                it.forEach { item-> list.add(item.name) }
+                mTabTitle.value = list
             }
         )
     }

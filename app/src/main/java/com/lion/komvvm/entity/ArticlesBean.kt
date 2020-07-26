@@ -1,5 +1,10 @@
 package com.lion.komvvm.entity
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+//@Entity(tableName = "articles")
 data class ArticlesBean(
     /**
      * apkLink : http://www.wanandroid.com/blogimgs/e8faab6b-ecb1-4bc2-af96-f7e5039032b3.apk
@@ -28,6 +33,7 @@ data class ArticlesBean(
     var courseId: Int = 0,
     var desc: String? = null,
     var envelopePic: String? = null,
+//@PrimaryKey @ColumnInfo(name="id")
     var id: Int = 0,
     var originId: Int = -1,    // 收藏文章列表里面的原始文章id
     var link: String? = null,

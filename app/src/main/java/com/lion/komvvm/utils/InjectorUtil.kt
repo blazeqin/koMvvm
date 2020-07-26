@@ -1,5 +1,6 @@
 package com.lion.komvvm.utils
 
+import android.content.Context
 import com.lion.komvvm.data.HomeRepository
 import com.lion.komvvm.data.MineRepository
 import com.lion.komvvm.data.ProjectRepository
@@ -13,7 +14,7 @@ object InjectorUtil {
      */
     fun getHomeRepository() = HomeRepository.getInstance(HomeNetwork.sInstance)
 
-    fun getProjectRepository() = ProjectRepository.getInstance(ProjectNetwork.sInstance)
+    fun getProjectRepository(context: Context) = ProjectRepository.getInstance(context)
 
     fun getMineRepository() = MineRepository.getInstance(MineNetwork.sInstance)
 }
