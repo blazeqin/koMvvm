@@ -18,8 +18,7 @@ class ProjectViewModel : BaseVM() {
     private var page = 0
 
     //tab
-    val mTabTitle = MutableLiveData<MutableList<String>>()
-    val mTabData = ObservableArrayList<NavTypeBean>()
+    val mTabTitle = MutableLiveData<List<NavTypeBean>>()
 
     //data list
     val mDatas = MutableLiveData<MutableList<ArticlesBean>>()
@@ -35,7 +34,7 @@ class ProjectViewModel : BaseVM() {
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let {
                 LogUtils.i("onTabSelected :${it.position}")
-                getProjectList(mTabData[it.position].id)
+                getProjectList(mTabTitle.value!![it.position].id)
             }
         }
     }
@@ -68,10 +67,7 @@ class ProjectViewModel : BaseVM() {
         launchFilterResponse(
             {mRepository.getTabData()},
             {
-                mTabData.addAll(it)
-                val list = mutableListOf<String>()
-                it.forEach { item-> list.add(item.name) }
-                mTabTitle.value = list
+                mTabTitle.value = it
             }
         )
     }

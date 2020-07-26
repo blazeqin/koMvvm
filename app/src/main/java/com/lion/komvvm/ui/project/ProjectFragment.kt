@@ -48,7 +48,7 @@ class ProjectFragment : BaseFragment<ProjectViewModel, ViewDataBinding>() {
 
     private fun initTabLayout() {
         mViewModel.mTabTitle.observe(this, Observer {
-            it.forEach { title-> tl_project.addTab(tl_project.newTab().setText(title)) }
+            it.forEach { title-> tl_project.addTab(tl_project.newTab().setText(title.name)) }
         })
         tl_project.addOnTabSelectedListener(mViewModel.mTabClickListener)
     }
