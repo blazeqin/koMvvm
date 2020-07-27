@@ -1,6 +1,5 @@
 package com.lion.komvvm.ui.project
 
-import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
@@ -9,12 +8,10 @@ import com.lion.komvvm.entity.ArticlesBean
 import com.lion.komvvm.entity.NavTypeBean
 import com.lion.komvvm.utils.InjectorUtil
 import com.lion.mvvmlib.base.BaseVM
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 
 class ProjectViewModel : BaseVM() {
 
-    private val mRepository = InjectorUtil.getProjectRepository(Utils.getApp())
+    private val mRepository = InjectorUtil.getProjectRepository()
     private var page = 0
 
     //tab
@@ -39,8 +36,8 @@ class ProjectViewModel : BaseVM() {
         }
     }
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
+//    @ExperimentalCoroutinesApi
+//    @FlowPreview
     fun getFirstData() {
 //        launchUI {
 //    //在调用 flatMapConcat 后，collect 函数在收集新值之前会等待 flatMapConcat 内部的 flow 完成。

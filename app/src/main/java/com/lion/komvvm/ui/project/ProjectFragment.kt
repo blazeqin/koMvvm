@@ -14,8 +14,6 @@ import com.lion.mvvmlib.base.EventItem
 import com.lion.mvvmlib.util.EXTRA_URL
 import com.lion.mvvmlib.util.EventType
 import kotlinx.android.synthetic.main.fragment_project.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 
 class ProjectFragment : BaseFragment<ProjectViewModel, ViewDataBinding>() {
 
@@ -53,8 +51,8 @@ class ProjectFragment : BaseFragment<ProjectViewModel, ViewDataBinding>() {
         tl_project.addOnTabSelectedListener(mViewModel.mTabClickListener)
     }
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
+//    @FlowPreview
+//    @ExperimentalCoroutinesApi
     override fun lazyLoadData() {
         mViewModel.apply {
             getFirstData()

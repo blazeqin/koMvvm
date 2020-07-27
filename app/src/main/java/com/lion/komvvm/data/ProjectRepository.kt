@@ -1,8 +1,12 @@
 package com.lion.komvvm.data
 
+import PAGE_SIZE
 import android.content.Context
+import com.lion.komvvm.data.dao.ArticleDao
+import com.lion.komvvm.entity.HomeListBean
 import com.lion.komvvm.entity.NavTypeBean
 import com.lion.komvvm.network.ProjectNetwork
+import com.lion.komvvm.utils.InjectorUtil
 import com.lion.komvvm.utils.SingletonHolder
 import com.lion.mvvmlib.base.BaseResult
 
@@ -12,19 +16,18 @@ import com.lion.mvvmlib.base.BaseResult
  * 2 data is null, then get from network
  */
 class ProjectRepository private constructor(
-    private val context: Context
+    private val network: ProjectNetwork
 ){
     //get data from room
-    private val mTabDao by lazy { AppDatabase.getInstance(context.applicationContext).tabDao() }
-    //get data from network
-    private val network by lazy { ProjectNetwork.sInstance }
+    private val mTabDao by lazy { InjectorUtil.getTabDao() }
+    private val mArticleDao by lazy { InjectorUtil.getArticleDao() }
 
     suspend fun getTabData(): BaseResult<List<NavTypeBean>>{
         //get from room first, if null, then get from network, and store the data to room
         val result:List<NavTypeBean>? = mTabDao.getTabs()
         if (result.isNullOrEmpty()) {
             val tabData = network.getTabData()
-            if (tabData.errCode == 0) {
+            if (tabData.isSuccess()) {
                 mTabDao.insertAll(tabData.data)
             }
             return tabData
@@ -32,7 +35,18 @@ class ProjectRepository private constructor(
         return BaseResult(0, "",result)
     }
 
-    suspend fun getProjectList(page: Int, cid: Int) = network.getProjectList(page, cid)
+    suspend fun getProjectList(page: Int, cid: Int): BaseResult<HomeListBean> {
+        val result = mArticleDao.getArticlesById(PAGE_SIZE, page*PAGE_SIZE, cid)
 
-    companion object: SingletonHolder<ProjectRepository, Context>(::ProjectRepository)
+        if (result.isNullOrEmpty()) {
+            val homeListData = network.getProjectList(page, cid)
+            if (homeListData.isSuccess()) {
+                mArticleDao.insertAll(homeListData.data.datas)
+            }
+            return homeListData
+        }
+        return BaseResult(0, "", HomeListBean(page+1,result.toMutableList()))
+    }
+
+    companion object: SingletonHolder<ProjectRepository, ProjectNetwork>(::ProjectRepository)
 }

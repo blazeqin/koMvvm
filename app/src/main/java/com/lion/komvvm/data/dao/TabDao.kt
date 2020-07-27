@@ -11,12 +11,10 @@ import com.lion.komvvm.entity.NavTypeBean
  * The Data Access Object for the NavTypeBean class.
  */
 @Dao
-interface TabDao {
+interface TabDao :BaseDao<List<NavTypeBean>>{
 
     //cannot use suspend with livedata
     @Query("SELECT * FROM tabs ORDER BY id")
     suspend fun getTabs(): List<NavTypeBean>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(tabs: List<NavTypeBean>)
 }

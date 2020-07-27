@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-//@Entity(tableName = "articles")
+@Entity(tableName = "articles")
 data class ArticlesBean(
     /**
      * apkLink : http://www.wanandroid.com/blogimgs/e8faab6b-ecb1-4bc2-af96-f7e5039032b3.apk
@@ -25,27 +25,27 @@ data class ArticlesBean(
      * visible : 1
      * zan : 0
      */
-    var apkLink: String? = null,
+    @ColumnInfo(name = "apk_link") var apkLink: String? = null,
     var author: String? = null,
-    var chapterId: Int = 0,
-    var chapterName: String? = null,
-    var isCollect: Boolean = false,
-    var courseId: Int = 0,
+    @ColumnInfo(name = "chapter_id") var chapterId: Int = 0,
+    @ColumnInfo(name = "chapter_name") var chapterName: String? = null,
+    @ColumnInfo(name = "is_collect") var isCollect: Boolean = false,
+    @ColumnInfo(name = "course_id") var courseId: Int = 0,
     var desc: String? = null,
-    var envelopePic: String? = null,
-//@PrimaryKey @ColumnInfo(name="id")
+    @ColumnInfo(name = "envelope_pic") var envelopePic: String? = null,
+    @PrimaryKey @ColumnInfo(name="id")
     var id: Int = 0,
-    var originId: Int = -1,    // 收藏文章列表里面的原始文章id
+    @ColumnInfo(name = "origin_id") var originId: Int = -1,    // 收藏文章列表里面的原始文章id
     var link: String? = null,
-    var niceDate: String? = null,
+    @ColumnInfo(name = "nice_date") var niceDate: String? = null,
     var origin: String? = null,
-    var projectLink: String? = null,
-    var publishTime: Long = 0,
+    @ColumnInfo(name = "project_link") var projectLink: String? = null,
+    @ColumnInfo(name = "publish_time") var publishTime: Long = 0,
     var title: String? = null,
     var visible: Int = 0,
     var zan: Int = 0,
-    var isFresh: Boolean = false,
-    var isShowImage: Boolean = true,
+    @ColumnInfo(name = "is_fresh") var isFresh: Boolean = false,
+    @ColumnInfo(name = "is_show_image") var isShowImage: Boolean = true,
     // 分类name
-    var navigationName: String? = null
+    @ColumnInfo(name = "navigation_name") var navigationName: String? = null
 )

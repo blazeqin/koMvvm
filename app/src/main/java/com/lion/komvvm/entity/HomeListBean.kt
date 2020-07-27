@@ -23,18 +23,9 @@ import androidx.room.PrimaryKey
 data class HomeListBean(
     val curPage: Int,
     val datas: MutableList<ArticlesBean>,
-    val offset: Int,
-    val over: Boolean,
-    val pageCount: Int,
-    val size: Int,
-    val total: Int
-)
-
-data class UserBean(
-    val icon: String,
-    val id: Int,
-    val link: String,
-    val name: String,
-    val order: Int,
-    val visible: Int
+    var offset: Int = 0,
+    var over: Boolean = false,
+    var pageCount: Int = 0,
+    var size: Int = 0,
+    var total: Int = 0
 )
