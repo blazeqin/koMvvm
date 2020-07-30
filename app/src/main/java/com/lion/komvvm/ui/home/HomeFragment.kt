@@ -31,9 +31,8 @@ class HomeFragment : BaseFragment<HomeViewModel, ViewDataBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
         with(rv_home) {
             //set recyclerView
-            layoutManager = LinearLayoutManager(context)
             adapter = mAdapter
-            addItemDecoration(LineItemDecoration(context))
+            addItemDecoration(LineItemDecoration(context,10f, R.color.white))
 
             //set banner
             mBanner = XBanner(context)

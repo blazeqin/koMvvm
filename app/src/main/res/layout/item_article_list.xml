@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?><!--水波纹点击动画设置 selectableItemBackground-->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<com.lion.komvvm.ui.view.MaskedCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardPreventCornerOverlap="false"
+    android:elevation="4dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    app:shapeAppearanceOverlay="@style/ShapeAppearance.card"
+    android:background="?selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-    android:background="?selectableItemBackground"
+        android:background="@color/colorPrimary"
         android:layout_height="wrap_content">
 
-    <TextView
+        <TextView
             android:id="@+id/tv_project_list_article_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-        android:textStyle="bold"
             android:paddingStart="@dimen/dp_7"
             android:paddingTop="@dimen/dp_2"
             android:paddingEnd="@dimen/dp_7"
             android:paddingBottom="@dimen/dp_2"
             android:textSize="@dimen/sp_19"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="技术博客" />
 
-    <ImageView
+        <ImageView
             android:id="@+id/iv_project_list_article_ic"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_80"
@@ -31,7 +42,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_project_list_article_type"
             tools:ignore="ContentDescription" />
 
-    <TextView
+        <TextView
             android:id="@+id/tv_project_list_article_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -41,30 +52,34 @@
             android:lineSpacingExtra="@dimen/dp_4"
             android:maxLines="2"
             android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_project_list_article_ic"
             app:layout_constraintTop_toTopOf="@+id/iv_project_list_article_ic"
             tools:text="玩安卓" />
 
 
-    <TextView
+        <TextView
             android:id="@+id/tv_project_list_article_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_13"
             android:textSize="@dimen/sp_12"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_project_list_article_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_project_list_article_title"
             tools:text="2010-10-10" />
 
-    <TextView
+        <TextView
             android:id="@+id/tv_project_list_article_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp_12"
+            android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@+id/tv_project_list_article_time"
             app:layout_constraintTop_toTopOf="@+id/tv_project_list_article_time"
             tools:text="author" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.lion.komvvm.ui.view.MaskedCardView>

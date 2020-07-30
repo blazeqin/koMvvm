@@ -10,13 +10,12 @@ import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.lion.komvvm.R
 
-class LineItemDecoration(private val context:Context) : RecyclerView.ItemDecoration() {
+class LineItemDecoration(private val context:Context, lineSize: Float = 1f, color: Int = R.color.grey) : RecyclerView.ItemDecoration() {
     private val mPaint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) }
-    //the pxValue cannot be too small, because it is px. at least it has 1dp.
-    private val mDivider = SizeUtils.px2dp(3f)
+    private val mDivider = SizeUtils.dp2px(lineSize)
 
     init {
-        mPaint.setColor(context.resources.getColor(R.color.grey))
+        mPaint.setColor(context.resources.getColor(color))
     }
 
     /**

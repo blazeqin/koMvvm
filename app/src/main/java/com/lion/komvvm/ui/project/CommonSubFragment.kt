@@ -30,7 +30,7 @@ class CommonSubFragment : BaseFragment<CommonSubViewModel, ViewDataBinding>() {
         rv_common.setup<ArticlesBean> {
             dataSource(mViewModel.mDatas.value)
             adapter {
-                addItemView(R.layout.item_project_list) {
+                addItemView(R.layout.item_article_list) {
                     onBindViewHolder { data, _, _ ->
                         setText(R.id.tv_project_list_article_type, data?.chapterName)
                         setText(R.id.tv_project_list_article_title, data?.title)
