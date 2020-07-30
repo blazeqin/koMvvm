@@ -20,8 +20,8 @@ android {
         release {
             buildConfigField "boolean", "openLog", "false"
             buildConfigField "boolean", "singleTag", "false"
-            buildConfigField "String", "baseUrl", "https://www.wanandroid.com/"
-            resValue("string","app_name","Rmvvm")
+            buildConfigField "String", "baseUrl", "\"https://www.wanandroid.com/\""
+            resValue "string", "AppName", "Rmvvm"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -29,7 +29,9 @@ android {
             buildConfigField "boolean", "openLog", "true"
             buildConfigField "boolean", "singleTag", "true"
             buildConfigField "String", "baseUrl", "\"https://www.wanandroid.com/\""
-            resValue("string","app_name","KO mvvm")
+            //must be string, not the String; the name can be everything,
+            // but should be implemented with Manifest.xml's label attribute
+            resValue "string", "AppName", "KOmvvm"
         }
     }
 

@@ -5,6 +5,9 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
+/**
+ * when the parameters is not all in the table, the empty constructor is needed.
+ */
 @Entity(tableName = "tabs")
 data class NavTypeBean(
     @Ignore val children: List<Any>?,

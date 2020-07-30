@@ -39,7 +39,7 @@ ext {
     androidx = [
             'kotlin-stdlib'    : "org.jetbrains.kotlin:kotlin-stdlib:${versions['kotlin']}",
             appcompat          : "androidx.appcompat:appcompat:${versions['appcompat']}",
-            material           : "com.google.android.material:material:${versions['material']}",
+            material           : "com.google.android.material:material:1.1.0",
             'core-ktx'         : "androidx.core:core-ktx:${versions['corektx']}",
             'constraint-layout': "androidx.constraintlayout:constraintlayout:${versions["constraint"]}",
             //viewModel and LiveData
