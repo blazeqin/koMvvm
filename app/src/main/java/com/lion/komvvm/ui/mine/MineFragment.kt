@@ -14,7 +14,6 @@ import com.lion.komvvm.ui.activity.WebviewActivity
 import com.lion.komvvm.utils.LineItemDecoration
 import com.lion.mvvmlib.base.BaseFragment
 import com.lion.mvvmlib.util.EXTRA_URL
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_mine.*
 
 class MineFragment : BaseFragment<MineViewModel, ViewDataBinding>() {
@@ -24,33 +23,34 @@ class MineFragment : BaseFragment<MineViewModel, ViewDataBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
         rv_mine.setup<Any> {
             dataSource(mViewModel.mDatas.value)
-            adapter {
-                addItemView(R.layout.item_mine_title){
-                    isGivenViewType{data,_-> data is String}
-                    onBindViewHolder{data, _, _ ->
-                        val item = data as? String
-                        setText(R.id.tv_header, item)
+                .adapter {
+                    addItemView(R.layout.item_mine_title) {
+                        isGivenViewType { data, _ -> data is String }
+                        onBindViewHolder { data, _, _ ->
+                            val item = data as? String
+                            setText(R.id.tv_header, item)
+                        }
                     }
-                }
 
-                addItemView(R.layout.item_mine_list){
-                    isGivenViewType { data, _ -> data is UserBean }
-                    onBindViewHolder { data, _, _ ->
-                        val item = data as? UserBean
-                        setText(R.id.tv_title, item?.name)
-                        setText(R.id.tv_link, item?.link)
+                    addItemView(R.layout.item_mine_list) {
+                        isGivenViewType { data, _ -> data is UserBean }
+                        onBindViewHolder { data, _, _ ->
+                            val item = data as? UserBean
+                            setText(R.id.tv_title, item?.name)
+                            setText(R.id.tv_link, item?.link)
+                        }
+                    }
+                    setItemClickListener { koAdapter, i ->
+                        val item = koAdapter.getItem(i)
+                        if (item is UserBean) {
+                            val intent = Intent(context, WebviewActivity::class.java)
+                            intent.putExtra(EXTRA_URL, item.link)
+                            startActivity(intent)
+                        }
                     }
                 }
-                setItemClickListener { koAdapter, i ->
-                    val item = koAdapter.getItem(i)
-                    if (item is UserBean) {
-                        val intent = Intent(context, WebviewActivity::class.java)
-                        intent.putExtra(EXTRA_URL, item.link)
-                        startActivity(intent)
-                    }
-                }
-            }
-            addItemDecoration(LineItemDecoration(requireContext()))
+                .attach()
+                .addItemDecoration(LineItemDecoration(requireContext()))
         }
         mViewModel.mDatas.observe(this, Observer {
             (rv_mine.adapter as KoAdapter<Any>).addNewAll(it)

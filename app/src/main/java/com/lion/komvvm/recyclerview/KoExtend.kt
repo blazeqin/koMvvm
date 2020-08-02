@@ -12,21 +12,26 @@ class RecyclerSetup<T>(private val rv: RecyclerView){
     lateinit var mDatas: MutableList<T>
     var mAdapter: KoAdapter<T>? = null
 
-    fun dataSource(items: MutableList<T>?) {
+    fun dataSource(items: MutableList<T>?) = apply {
         mDatas = items ?: mutableListOf()
     }
 
-    fun withLayoutManager(init: RecyclerSetup<T>.() -> RecyclerView.LayoutManager) {
+    fun withLayoutManager(init: RecyclerSetup<T>.() -> RecyclerView.LayoutManager) = apply {
         rv.layoutManager = init()
     }
 
-    fun adapter(init: KoAdapter<T>.() -> Unit) {
+    fun adapter(init: KoAdapter<T>.() -> Unit) = apply {
         mAdapter = koAdapter(init)
+    }
+
+    //attach to recyclerview;
+    //use apply, so that we can continue to call other methods in this class
+    fun attach() = apply {
         rv.adapter = mAdapter
         mAdapter?.submitData(mDatas)
     }
 
-    fun addItemDecoration(decorate: RecyclerView.ItemDecoration) {
+    fun addItemDecoration(decorate: RecyclerView.ItemDecoration) = apply {
         rv.addItemDecoration(decorate)
     }
 }

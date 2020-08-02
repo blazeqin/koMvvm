@@ -1,5 +1,6 @@
 package com.lion.komvvm.recyclerview
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,6 @@ class KoAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val holder = getHolderByViewType(viewType) ?: throwException(viewType)
         val viewHolder = BaseViewHolder(parent, holder.getResourceId())
-        bindClickListener(viewHolder)
         return viewHolder
     }
 
@@ -27,11 +27,14 @@ class KoAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         mItemClick = listener
     }
 
-    private fun bindClickListener(viewHolder: BaseViewHolder) {
-        viewHolder.itemView.setOnClickListener {
+    private fun bindClickListener(
+        holder: ViewHolderCreator<T>,
+        position: Int
+    ) {
+        holder.itemClicked(View.OnClickListener {
             //ignore the head view, the layoutPosition maybe wrong.
-            mItemClick?.invoke(this, viewHolder.layoutPosition)
-        }
+            mItemClick?.invoke(this, position)
+        })
     }
 
     private fun getHolderByViewType(viewType: Int): ViewHolderCreator<T>? {
@@ -56,8 +59,8 @@ class KoAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val creatorHolder =
             getHolderByViewType(holder.itemViewType) ?: throwException(holder.itemViewType)
         creatorHolder.registerItemView(holder.itemView)
-//        creatorHolder.onBindViewHolder(mDatas[position], mDatas, position, creatorHolder)
         creatorHolder.mFuncForBindViewHolder?.invoke(mDatas[position], position, creatorHolder)
+        bindClickListener(creatorHolder, position)
     }
 
     //get view type: iterator to get it
@@ -114,9 +117,6 @@ class KoAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
     //get item
     fun getItem(position: Int) = mDatas.get(position)
-    //attach to recyclerview;
-    //use apply, so that we can continue to call other methods in this class
-    fun attach(rv:RecyclerView) = apply { rv.adapter = this }
 
     //submit data
     fun submitData(items: MutableList<T>) {

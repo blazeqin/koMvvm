@@ -29,7 +29,7 @@ class CommonSubFragment : BaseFragment<CommonSubViewModel, ViewDataBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
         rv_common.setup<ArticlesBean> {
             dataSource(mViewModel.mDatas.value)
-            adapter {
+                .adapter {
                 addItemView(R.layout.item_article_list) {
                     onBindViewHolder { data, _, _ ->
                         setText(R.id.tv_project_list_article_type, data?.chapterName)
@@ -46,7 +46,8 @@ class CommonSubFragment : BaseFragment<CommonSubViewModel, ViewDataBinding>() {
                     startActivity(intent)
                 }
             }
-            addItemDecoration(LineItemDecoration(requireContext()))
+                .attach()
+                .addItemDecoration(LineItemDecoration(requireContext()))
         }
     }
 
