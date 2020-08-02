@@ -11,7 +11,7 @@ class ProjectViewModel : BaseVM() {
 
     fun getFirstData() {
         launchFilterResponse(
-            {mRepository.getTabData()},
+            {mRepository.getTabData(this)},
             {
                 mTabTitle.value = it
             }

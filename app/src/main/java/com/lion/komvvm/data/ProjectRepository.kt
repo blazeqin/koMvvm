@@ -9,6 +9,8 @@ import com.lion.komvvm.network.ProjectNetwork
 import com.lion.komvvm.utils.InjectorUtil
 import com.lion.komvvm.utils.SingletonHolder
 import com.lion.mvvmlib.base.BaseResult
+import getCommonData
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * can use three layer store cache in this class
@@ -22,17 +24,14 @@ class ProjectRepository private constructor(
     private val mTabDao by lazy { InjectorUtil.getTabDao() }
     private val mArticleDao by lazy { InjectorUtil.getArticleDao() }
 
-    suspend fun getTabData(): BaseResult<List<NavTypeBean>>{
+    suspend fun getTabData(scope: CoroutineScope): BaseResult<List<NavTypeBean>>{
         //get from room first, if null, then get from network, and store the data to room
-        val result:List<NavTypeBean>? = mTabDao.getTabs()
-        if (result.isNullOrEmpty()) {
-            val tabData = network.getTabData()
-            if (tabData.isSuccess()) {
-                mTabDao.insertAll(tabData.data)
-            }
-            return tabData
-        }
-        return BaseResult(0, "",result)
+        return getCommonData(
+            scope,
+            dbData = {mTabDao.getTabs()},
+            networkData = {network.getTabData()},
+            insertData = {mTabDao.insertAll(it)}
+        )
     }
 
     suspend fun getProjectList(page: Int, cid: Int): BaseResult<HomeListBean> {

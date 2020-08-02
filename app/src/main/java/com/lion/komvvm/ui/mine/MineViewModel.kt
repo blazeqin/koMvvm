@@ -14,7 +14,7 @@ class MineViewModel : BaseVM() {
 
     fun getMineData() {
         launchFilterResponse(
-            {mRepository.getMineData()},
+            {mRepository.getMineData(this)},
             {
                 val datas = ArrayList<Any>()
                 datas.add("Mine Title")

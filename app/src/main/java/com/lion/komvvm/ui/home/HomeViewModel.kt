@@ -34,7 +34,7 @@ class HomeViewModel : BaseVM() {
 
     fun getBanner() {
         launchFilterResponse(
-            {mRepository.getBannerData()},
+            {mRepository.getBannerData(this)},
             {mBannerData.value = it}
         )
     }

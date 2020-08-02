@@ -1,15 +1,14 @@
 package com.lion.komvvm.data
 
 import PAGE_SIZE
-import android.content.Context
 import com.lion.komvvm.entity.BannerBean
 import com.lion.komvvm.entity.HomeListBean
 import com.lion.komvvm.network.HomeNetwork
 import com.lion.komvvm.utils.InjectorUtil
 import com.lion.komvvm.utils.SingletonHolder
 import com.lion.mvvmlib.base.BaseResult
+import getCommonData
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 
 /**
  * can use three layer store cache in this class
@@ -20,16 +19,12 @@ class HomeRepository private constructor(
     private val mArticleDao by lazy { InjectorUtil.getArticleDao()}
     private val mBannerDao by lazy { InjectorUtil.getBannerDao()}
 
-    suspend fun getBannerData(): BaseResult<List<BannerBean>> {
-        val banners = mBannerDao.getBanners()
-        if (banners.isNullOrEmpty()) {
-            val bannerData = network.getBannerData()
-            if (bannerData.isSuccess()) {
-                mBannerDao.insertAll(bannerData.data)
-            }
-            return bannerData
-        }
-        return BaseResult(0,"", banners)
+    suspend fun getBannerData(scope: CoroutineScope): BaseResult<List<BannerBean>> {
+        return getCommonData(scope,
+        dbData = {mBannerDao.getBanners()},
+        networkData = {network.getBannerData()},
+        insertData = {mBannerDao.insertAll(it)}
+        )
     }
 
     suspend fun getHomeListData(page: Int): BaseResult<HomeListBean> {
