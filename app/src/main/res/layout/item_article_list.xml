@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="技术博客" />
 
-        <ImageView
+        <com.lion.komvvm.ui.view.CircleImageView
             android:id="@+id/iv_project_list_article_ic"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_80"

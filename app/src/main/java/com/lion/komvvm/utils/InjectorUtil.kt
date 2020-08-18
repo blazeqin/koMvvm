@@ -17,9 +17,7 @@ object InjectorUtil {
     private val context by lazy { Utils.getApp() }
 
     fun getHomeRepository() = HomeRepository.getInstance(HomeNetwork.sInstance)
-
     fun getProjectRepository() = ProjectRepository.getInstance(ProjectNetwork.sInstance)
-
     fun getMineRepository() = MineRepository.getInstance(MineNetwork.sInstance)
 
     fun getBannerDao() = AppDatabase.getInstance(context.applicationContext).bannerDao()

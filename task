@@ -12,3 +12,9 @@
 
 6. cardview
 finished
+
+7. first load, use internet data
+ use a collection cache the flags, so we can do this.
+ 增删不频繁，数据量小，key不是整型，使用arraymap
+ 更新数据和数据表有关系，和调用哪个接口没有直接关系，所以APP启动后，操作一次表算是更新了数据，下回就从数据库获取数据。
+ 具体实现：调用接口时，需要知道操作哪张表，然后获取对应的flag。。。

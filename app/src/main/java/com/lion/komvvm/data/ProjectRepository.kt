@@ -3,6 +3,7 @@ package com.lion.komvvm.data
 import PAGE_SIZE
 import android.content.Context
 import com.lion.komvvm.data.dao.ArticleDao
+import com.lion.komvvm.entity.ArticlesBean
 import com.lion.komvvm.entity.HomeListBean
 import com.lion.komvvm.entity.NavTypeBean
 import com.lion.komvvm.network.ProjectNetwork
@@ -11,6 +12,7 @@ import com.lion.komvvm.utils.SingletonHolder
 import com.lion.mvvmlib.base.BaseResult
 import getCommonData
 import kotlinx.coroutines.CoroutineScope
+import mFlagMap
 
 /**
  * can use three layer store cache in this class
@@ -27,7 +29,7 @@ class ProjectRepository private constructor(
     suspend fun getTabData(scope: CoroutineScope): BaseResult<List<NavTypeBean>>{
         //get from room first, if null, then get from network, and store the data to room
         return getCommonData(
-            scope,
+            scope,mTabDao,
             dbData = {mTabDao.getTabs()},
             networkData = {network.getTabData()},
             insertData = {mTabDao.insertAll(it)}
@@ -35,7 +37,13 @@ class ProjectRepository private constructor(
     }
 
     suspend fun getProjectList(page: Int, cid: Int): BaseResult<HomeListBean> {
-        val result = mArticleDao.getArticlesById(PAGE_SIZE, page*PAGE_SIZE, cid)
+        //first load from internet
+        val flag = mFlagMap.get(mArticleDao)
+        var result: List<ArticlesBean>? = null
+        if (flag == null || !flag) {
+            mFlagMap[mArticleDao] = true
+        }else
+            result = mArticleDao.getArticlesById(PAGE_SIZE, page*PAGE_SIZE, cid)
 
         if (result.isNullOrEmpty()) {
             val homeListData = network.getProjectList(page, cid)

@@ -21,7 +21,7 @@ class MineRepository private constructor(
 
     suspend fun getMineData(scope: CoroutineScope): BaseResult<List<UserBean>> {
         return getCommonData(
-            scope,
+            scope,mUserDao,
             dbData = {mUserDao.getUsers()},
             networkData = {network.getMineData()},
             insertData = {mUserDao.insertAll(it)}
